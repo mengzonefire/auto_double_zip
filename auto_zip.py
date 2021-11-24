@@ -25,20 +25,20 @@ def get_files():
     if not os.path.exists(output_path):
         os.mkdir(output_path)
     for file in dirs:
-        command = 'HaoZipC a -t7z "../{2}/{0}(内层).7z" "../{1}/{0}" -mhe=on -mmt=on'.format(
+        command = 'HaoZipC a -tzip "../{2}/{0}(内层).zip" "../{1}/{0}" -mm=Copy'.format(
             file, input_path, output_path)
-        command2 = 'HaoZipC a -t7z -p"{0}" "../{2}/{1}.7z" "../{2}/{1}(内层).7z" -mhe=on -mmt=on'.format(
+        command2 = 'HaoZipC a -tzip -p"{0}" "../{2}/{1}.zip" "../{2}/{1}(内层).zip" -mm=Copy'.format(
             file_pw, file, output_path)
         # 同路径下需要有压缩程序 HaoZipC
         subprocess.run(command, shell=True, cwd="./HaoZip")
         subprocess.run(command2, shell=True, cwd="./HaoZip")
-        os.remove('./{1}/{0}(内层).7z'.format(file, output_path))
+        os.remove('./{1}/{0}(内层).zip'.format(file, output_path))
 
 
 def main():
     exe_path, exe_name = os.path.split(sys.argv[0])
     if exe_path:
-        os.chdir(exe_path)  # 切换工作目录到程序根目录
+        os.chdir(exe_path)  # 切换工作目录到程序同目录
     print('version: '+version)
     get_pw()
     get_files()
@@ -50,4 +50,4 @@ if __name__ == '__main__':
     except Exception as e:
         traceback.print_exc()
     finally:
-        input('按任意键退出...')
+        input('按回车键退出...')
